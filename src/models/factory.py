@@ -1,6 +1,7 @@
 from src.models.base import ModelProvider
 from src.models.huggingface import HuggingFaceModel
 from src.models.openai import OpenAIModel
+from src.models.aloe import AloeModel
 from typing import Dict, Type
 
 
@@ -11,6 +12,7 @@ class ModelFactory:
     providers: Dict[str, Type[ModelProvider]] = {
         'huggingface': HuggingFaceModel,
         'openai': OpenAIModel,
+        'aloe': AloeModel,
     }
 
     @classmethod

@@ -5,6 +5,8 @@ from src.data_loader import DataLoader
 from src.evaluator import Evaluator
 from src.result_parser import ResultParser
 from src.models.factory import ModelFactory
+import json
+import pprint
 
 def parse_provider_args(provider_args):
     """Parse key-value pairs from --provider-args."""
@@ -64,6 +66,16 @@ def main():
     
     responses = data_loader.get_responses()
     conversations = data_loader.get_conversations()
+
+    # Store responses to jsonl for later comparison
+    jsonl_lines = []
+    for key, value in responses.items():
+        jsonl_line = json.dumps({"QUESTION_ID": key, "RESPONSE": value})
+        jsonl_lines.append(jsonl_line)
+    # Write JSONL lines to a file
+    with open('data/latest_responses.jsonl', 'w') as f:
+        for line in jsonl_lines:
+            f.write(line + '\n')
 
     evaluator = Evaluator(conversations, responses)
     evaluation_results = evaluator.evaluate(max_workers=args.max_workers_eval)

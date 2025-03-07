@@ -6,7 +6,7 @@ from src.models.base import ModelProvider
 class OpenAIModel(ModelProvider):
     """OpenAI model provider that uses GPT-4 for evaluation."""
 
-    def __init__(self, model: str, temp: float, response_format: Any = None):
+    def __init__(self, model: str, temp: float, max_tokens: int = 4096, response_format: Any = None):
         """Initialize OpenAI API with the environment variable and other necessary parameters."""
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
@@ -16,6 +16,7 @@ class OpenAIModel(ModelProvider):
 
         self.model = model
         self.temp = float(temp)
+        self.max_tokens = max_tokens
         self.response_format = response_format or False
 
     def generate(self, prompt:Any):
