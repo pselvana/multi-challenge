@@ -8,11 +8,14 @@ class OpenAIModel(ModelProvider):
 
     def __init__(self, model: str, temp: float, max_tokens: int = 4096, response_format: Any = None):
         """Initialize OpenAI API with the environment variable and other necessary parameters."""
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = os.getenv("OPENAI_API_KEY") or "ollama"
         if not api_key:
             raise ValueError("OPENAI_API_KEY is not set in the .env file.")
         
-        self.client = OpenAI(api_key=api_key)
+        if api_key == "ollama":
+            self.client = OpenAI(base_url='http://localhost:11434/v1', api_key=api_key)
+        else:
+            self.client = OpenAI(api_key=api_key)
 
         self.model = model
         self.temp = float(temp)

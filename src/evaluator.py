@@ -27,8 +27,16 @@ class Evaluator:
     def __init__(self, conversations: List[Any], responses: Dict[int, List[str]]):
         self.conversations = conversations
         self.responses = responses
+
+        # deepseek-r1:32b instead of gpt-4o-2024-08-06 if ollama
+        api_key = os.getenv("OPENAI_API_KEY") or "ollama"
+        mode = ""
+        if api_key == "ollama":
+            model = "deepseek-r1:32b"
+        else:
+            model = "gpt-4o-2024-08-06"
         self.evaluation_model = OpenAIModel(
-            model="gpt-4o-2024-08-06", 
+            model=model, 
             temp=0, 
             max_tokens=4096,
             response_format=JudgeResponse
