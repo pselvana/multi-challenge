@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import List, Dict, Tuple, Any, Literal
 from src.models.openai import OpenAIModel
 from tqdm import tqdm
+import os
 
 class JudgeResponse(BaseModel):
     reasoning: str
